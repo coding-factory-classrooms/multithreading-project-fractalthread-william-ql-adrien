@@ -1,15 +1,29 @@
-package org.example;
+package org.project;
 
-import org.example.core.Conf;
-import org.example.core.Template;
-import org.example.middlewares.LoggerMiddleware;
+import org.project.core.Conf;
+import org.project.core.Template;
+import org.project.fractal.Mandelbrot;
+import org.project.middlewares.LoggerMiddleware;
 import spark.Spark;
 
+import javax.imageio.ImageIO;
+import java.io.File;
 import java.util.HashMap;
 
 public class App {
     public static void main(String[] args) {
         initialize();
+
+       // Mandelbrot mandelbrot = new Mandelbrot();
+
+        try {
+            Long start = System.currentTimeMillis();
+           // ImageIO.write(mandelbrot.generate(500, 500), "png", new File("Mandelbrot.png"));
+          //  mandelbrot.createImage();
+            System.out.println("Mandelbrot generation time :" + (System.currentTimeMillis() - start ) + "ms");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Spark.get("/", (req, res) -> {
             return Template.render("home.html", new HashMap<>());

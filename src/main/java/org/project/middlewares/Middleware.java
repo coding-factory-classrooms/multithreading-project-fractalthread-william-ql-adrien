@@ -1,4 +1,4 @@
-package org.example.middlewares;
+package org.project.middlewares;
 
 import spark.Request;
 import spark.Response;

@@ -1,4 +1,4 @@
-package org.example.core;
+package org.project.core;
 
 import org.apache.velocity.app.VelocityEngine;
 import spark.ModelAndView;
