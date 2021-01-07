@@ -14,17 +14,13 @@ public class App {
     public static void main(String[] args) {
         initialize();
 
-       // Mandelbrot mandelbrot = new Mandelbrot();
+        Mandelbrot mandelbrot = new Mandelbrot(1000, 1000, false);
 
-        try {
-            Long start = System.currentTimeMillis();
-           // ImageIO.write(mandelbrot.generate(500, 500), "png", new File("Mandelbrot.png"));
-          //  mandelbrot.createImage();
-            System.out.println("Mandelbrot generation time :" + (System.currentTimeMillis() - start ) + "ms");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mandelbrot.getImageFromPos(1,1,4);
 
+        Spark.get("/", (req, res) -> {
+            return Template.render("home.html", new HashMap<>());
+        });
         Spark.get("/", (req, res) -> {
             return Template.render("home.html", new HashMap<>());
         });
