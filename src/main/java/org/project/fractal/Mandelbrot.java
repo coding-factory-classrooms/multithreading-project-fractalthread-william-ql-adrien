@@ -51,7 +51,7 @@ public class Mandelbrot extends Canvas {
     // size of fractal in pixels (HEIGHT X HEIGHT)
     private static final int HEIGHT = 512;
     // how long to test for orbit divergence
-    private static final int MAX_ITERATIONS = 50;
+    private static final int MAX_ITERATIONS = 100;
     // maximum grid size to process sequentially
     private static final int SEQ_CUTOFF = 64;
 
@@ -77,8 +77,8 @@ public class Mandelbrot extends Canvas {
      * The constructor will calculate the fractal (either sequentially
      * or in parallel), then store the result in an {@link java.awt.Image}
      *
-     * @param width      the size of the fractal (width pixels).
-     * @param height     the size of the fractal (height pixels).
+     * @param width    the size of the fractal (width pixels).
+     * @param height   the size of the fractal (height pixels).
      * @param parallel if true, render in parallel
      */
     public Mandelbrot(int width, int height, boolean parallel) {
@@ -91,18 +91,16 @@ public class Mandelbrot extends Canvas {
             colors[i] = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f));
         }
 
-        this.optDrawGrid = optDrawGrid;
-
         this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         //double x = 0;
         //double y = 0;
-        double zoom = 4;
+     /*   double zoom = 4;
         for (double x = 0; x < 10; x++) {
             for (double y = 0; y < 10; y++) {
                 System.out.println("file : " + getImageFromPos(x, y, zoom));
             }
-        }
+        }*/
     }
 
 
@@ -134,7 +132,6 @@ public class Mandelbrot extends Canvas {
     private int[][] calcMandelBrot(double xPos, double yPos, double zoom) {
 
 
-
         int[][] imageData = new int[width][height];
         // col => Column in image
         // row => Rows in image
@@ -143,7 +140,7 @@ public class Mandelbrot extends Canvas {
         // yPos position dans le fractal
 
 
-       // BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        // BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         long start = System.currentTimeMillis();
         for (int row = 0; row < height; row++) {
@@ -174,7 +171,7 @@ public class Mandelbrot extends Canvas {
         return imageData;
     }
 
-    private int getColor(int index){
+    private int getColor(int index) {
         return colors[index];
     }
 

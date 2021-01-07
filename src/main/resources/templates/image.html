@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mandelbrot</title>
+    <link href="css/imageControl.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="container">
+    <div id="controller">
+        <div id="up" onclick="move('y', 1)" class="control">UP</div>
+        <div id="down" onclick="move('y', -1)"  class="control">DOWN</div>
+        <div id="right" onclick="move('x', -1)" class="control">RIGHT</div>
+        <div id="left" onclick="move('x', 1)" class="control">LEFT</div>
+        <div id="zoomup" onclick="move('zoom', -1)" class="control">ZOOM UP</div>
+        <div id="zoomdown" onclick="move('zoom', 1)" class="control">ZOOM DOWN</div>
+    </div>
+    <img id="image" src="/images/0.0/0.0/4.0">
+</div>
+
+<script>
+    const image = document.getElementById("image");
+    const position = {
+        x : 0.0,
+        y : 0.0,
+        zoom : 4.0
+    }
+    function changeImage(){
+        image.src = `/images/${position.x}/${position.y}/${position.zoom}`
+    }
+
+    function move(pos, step) {
+        position[pos] += step;
+        changeImage();
+    }
+
+
+</script>
+</body>
+</html>
