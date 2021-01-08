@@ -21,7 +21,6 @@ public class App {
 
         Mandelbrot mandelbrot = new Mandelbrot(1024, 1024, false);
 
-        mandelbrot.getImageFromPos(1,1,4);
 
         Spark.get("/", (req, res) -> {
             return Template.render("home.html", new HashMap<>());

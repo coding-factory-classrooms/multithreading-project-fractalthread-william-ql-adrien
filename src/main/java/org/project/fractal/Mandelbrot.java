@@ -38,17 +38,10 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ForkJoinPool;
-import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.*;
 
 /**
- * Demo of using Fork/Join parallelism to speed up the rendering of the
- * Mandelbrot fractal. The fractal is shown centered around the origin
- * of the Complex plane with x and y coordinates in the interval [-2, 2].
- *
- * @author tvcutsem
+ * @author ANDRIEU William
  */
 public class Mandelbrot extends Canvas {
 
@@ -59,22 +52,14 @@ public class Mandelbrot extends Canvas {
     // maximum grid size to process sequentially
     private static final int SEQ_CUTOFF = 64;
 
-    private int colorscheme[];
-
-    // 2-dimensional array of colors stored in packed ARGB format
-    private int[] fractal;
 
     private int height;
     private int width;
-    private boolean optDrawGrid;
-    private String msg;
 
     private int black = 0;
     private int[] colors;
     private BufferedImage image;
 
-
-    private ForkJoinPool fjPool = new ForkJoinPool();
 
     /**
      * Construct a new Mandelbrot
@@ -96,15 +81,6 @@ public class Mandelbrot extends Canvas {
         }
 
         this.image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-        //double x = 0;
-        //double y = 0;
-     /*   double zoom = 4;
-        for (double x = 0; x < 10; x++) {
-            for (double y = 0; y < 10; y++) {
-                System.out.println("file : " + getImageFromPos(x, y, zoom));
-            }
-        }*/
     }
 
 
@@ -119,10 +95,8 @@ public class Mandelbrot extends Canvas {
             System.out.println("FILE ALREADY EXIST");
             return file;
         } else {
-
             calcMandelBrot(x, y, zoom);
             try {
-
                 Files.createDirectories(Paths.get(path));
                 ImageIO.write(image, "png", new File(path + "/Mandelbrot.png"));
                 System.out.println("FILE CREATED");
@@ -142,38 +116,37 @@ public class Mandelbrot extends Canvas {
 
         int[][] imageData = new int[width][height];
         // BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-        List<Thread> threadList = new ArrayList<>();
-
         int cores = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(cores);
+        System.out.println("Cores :"+ cores);
 
         long start = System.currentTimeMillis();
-        int chunkSize = height / cores;
-        for (int chunk = 0; chunk < height; chunk += chunkSize) {
-            System.out.println(chunk);
-            MandelTask mandelTask = new MandelTask(xPos, yPos, zoom, chunk, chunkSize, image, height, width, MAX_ITERATIONS, colors);
-            Thread thread = new Thread(mandelTask);
-            threadList.add(thread);
-            thread.start();
-        }
+        int chunkSize = height / (cores*4);
 
-        System.out.println("Number of threads : "+ threadList.size());
-        for (Thread thread : threadList) {
-            try {
-                thread.join();
-                System.out.println("THREAD STOPPED");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        for (int chunkX = 0; chunkX < height; chunkX += chunkSize) {
+            for (int chunkY = 0; chunkY < width; chunkY += chunkSize) {
+
+            MandelTask mandelTask = new MandelTask(xPos, yPos, zoom, chunkX, chunkY, image, height, width, MAX_ITERATIONS,chunkSize, colors);
+            executorService.execute(mandelTask);
             }
+
+        }
+        executorService.shutdown();
+
+
+        try {
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         long elapsed = System.currentTimeMillis() - start;
         System.out.println("Time to generate : " + elapsed + " ms");
 
+
+
         return imageData;
     }
-
-
 
 
     private void generateChunk(double xPos, double yPos, double zoom, int chunk, int chunkSize, int[][] imageData) {
