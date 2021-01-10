@@ -7,9 +7,7 @@ import org.project.middlewares.LoggerMiddleware;
 import spark.Spark;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
 
@@ -26,9 +24,20 @@ public class App {
         Spark.get("/", (req, res) -> {
             return Template.render("home.html", new HashMap<>());
         });
+
+        DataInfo a = new DataInfo(-2,1,-1,1,1);
+        FracalController fracalController = new FracalController(a);
+        Spark.get("/fractal", (req, res) -> fracalController.fractalData(req, res));
+        Spark.get("/fractal/:id", (req, res) -> {
+            res.redirect("/fractal");
+            return res;
+        });
+
+
         Spark.get("/image", (req, res) -> {
             return Template.render("image.html", new HashMap<>());
         });
+
         Spark.get("/images/:x/:y/:zoom", (req, res) -> {
             double x = Double.parseDouble(req.params(":x"));
             double y = Double.parseDouble(req.params(":y"));
@@ -64,3 +73,61 @@ public class App {
         Spark.before(log::process);
     }
 }
+
+
+class DataInfo{
+    private int xmin;
+    private int xmax;
+    private int ymin;
+    private int ymax;
+    private int zoom;
+
+    public int getXmin() {
+        return xmin;
+    }
+
+    public void setXmin(int xmin) {
+        this.xmin = xmin;
+    }
+
+    public int getXmax() {
+        return xmax;
+    }
+
+    public void setXmax(int xmax) {
+        this.xmax = xmax;
+    }
+
+    public int getYmin() {
+        return ymin;
+    }
+
+    public void setYmin(int ymin) {
+        this.ymin = ymin;
+    }
+
+    public int getYmax() {
+        return ymax;
+    }
+
+    public void setYmax(int ymax) {
+        this.ymax = ymax;
+    }
+
+    public int getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(int zoom) {
+        this.zoom = zoom;
+    }
+
+    DataInfo(int xmin, int xmax, int ymin, int ymax, int zoom) {
+        this.xmin = xmin;
+        this.xmax = xmax;
+        this.ymin = ymin;
+        this.ymax = ymax;
+        this.zoom = zoom;
+    }
+}
+
