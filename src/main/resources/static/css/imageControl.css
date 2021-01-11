@@ -13,14 +13,13 @@ body {
     width: 100%;
 }
 
-.control{
+/*.control{
     padding: 5%;
     margin: 5%;
     text-align: center;
     vertical-align: center;
     background-color: lightgray;
-
-}
+}*/
 
 #controller {
     width: 20%;
