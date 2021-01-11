@@ -152,6 +152,7 @@ public class Mandelbrot extends Canvas {
     private void generateChunk(double xPos, double yPos, double zoom, int chunk, int chunkSize, int[][] imageData) {
         for (int row = chunk; row < (chunk + chunkSize) && row < height; row++) {
             for (int col = 0; col < width; col++) {
+
                 double c_re = ((col - width / 2) * zoom / width) + xPos;
                 double c_im = ((row - height / 2) * zoom / width) + yPos;
                 double x = 0, y = 0;
