@@ -8,15 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FracalController {
-    private final DataInfo dataInfo;
+    private final Fractal fractal;
 
-    public FracalController(DataInfo dataInfo) {
-        this.dataInfo = dataInfo;
+    public FracalController(Fractal fractal) {
+        this.fractal = fractal;
     }
 
     public String fractalData(Request req, Response res){
         Map<String, Object> model = new HashMap<>();
-        model.put("dataInfo", dataInfo.getXmax());
+        model.put("fractalValues", fractal.getFractal());
+        model.put("width", fractal.getWidth());
+        model.put("height", fractal.getHeight());
         return Template.render("fractal.html",model);
     }
 }
