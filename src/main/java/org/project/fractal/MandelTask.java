@@ -36,9 +36,11 @@ class MandelTask implements Runnable {
         boolean fullBlack = true;
         double demi_width = width / 2;
         double demi_height = height / 2;
+        int maximumX = (chunkX + chunkSize);
+        int maximumY = (chunkY + chunkSize);
 
-        for (int row = chunkX; row < (chunkX + chunkSize) && row < height; row++) {
-            for (int col = chunkY; col < (chunkY + chunkSize) && col < width; col++) {
+        for (int row = chunkX; row < maximumX && row < height; row++) {
+            for (int col = chunkY; col < maximumY && col < width; col++) {
 
                 double c_re = ((col - demi_width) * zoom / width) + xPos;
                 double c_im = ((row - demi_height) * zoom / width) + yPos;

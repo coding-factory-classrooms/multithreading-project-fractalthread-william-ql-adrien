@@ -95,7 +95,7 @@ public class Mandelbrot extends Canvas {
             System.out.println("FILE ALREADY EXIST");
             return file;
         } else {
-            calcMandelBrot(x, y, zoom);
+            BufferedImage image = calcMandelBrot(x, y, zoom);
             try {
                 Files.createDirectories(Paths.get(path));
                 ImageIO.write(image, "png", new File(path + "/Mandelbrot.png"));
@@ -112,10 +112,11 @@ public class Mandelbrot extends Canvas {
     // zoom  chiffre + grand = dezoom;
     // xPos position dans le fractal
     // yPos position dans le fractal
-    private int[][] calcMandelBrot(double xPos, double yPos, double zoom) {
+    private BufferedImage calcMandelBrot(double xPos, double yPos, double zoom) {
 
         int[][] imageData = new int[width][height];
-        // BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
         int cores = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(cores);
         System.out.println("Cores :"+ cores);
@@ -135,7 +136,7 @@ public class Mandelbrot extends Canvas {
 
 
         try {
-            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -145,7 +146,7 @@ public class Mandelbrot extends Canvas {
 
 
 
-        return imageData;
+        return image;
     }
 
 
