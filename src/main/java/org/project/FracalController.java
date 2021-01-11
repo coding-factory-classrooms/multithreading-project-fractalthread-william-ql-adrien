@@ -17,6 +17,7 @@ public class FracalController {
     public String fractalData(Request req, Response res){
         Map<String, Object> model = new HashMap<>();
         model.put("fractalValues", fractal.getFractal());
+        model.put("fractalData", fractal.getFractalData());
         model.put("width", fractal.getWidth());
         model.put("height", fractal.getHeight());
         return Template.render("fractal.html",model);
