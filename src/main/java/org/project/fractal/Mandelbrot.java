@@ -40,6 +40,19 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
+<<<<<<< HEAD
+=======
+import javax.imageio.ImageIO;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.image.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.concurrent.*;
+
+>>>>>>> ec9a71cf44ad01232bc86a5c5a9ede2f97db7304
 /**
  * @author ANDRIEU William
  */
@@ -95,7 +108,7 @@ public class Mandelbrot extends Canvas implements FileWriter {
             System.out.println("FILE ALREADY EXIST");
             return file;
         } else {
-            calcMandelBrot(x, y, zoom);
+            BufferedImage image = calcMandelBrot(x, y, zoom);
             try {
                 Files.createDirectories(Paths.get(path));
                 ImageIO.write(image, "png", new File(path + "/Mandelbrot.png"));
@@ -112,10 +125,15 @@ public class Mandelbrot extends Canvas implements FileWriter {
     // zoom  chiffre + grand = dezoom;
     // xPos position dans le fractal
     // yPos position dans le fractal
+<<<<<<< HEAD
     public int[][] calcMandelBrot(double xPos, double yPos, double zoom) {
+=======
+    private BufferedImage calcMandelBrot(double xPos, double yPos, double zoom) {
+>>>>>>> ec9a71cf44ad01232bc86a5c5a9ede2f97db7304
 
         int[][] imageData = new int[width][height];
-        // BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
         int cores = Runtime.getRuntime().availableProcessors();
         ExecutorService executorService = Executors.newFixedThreadPool(cores);
         System.out.println("Cores :"+ cores);
@@ -135,7 +153,7 @@ public class Mandelbrot extends Canvas implements FileWriter {
 
 
         try {
-            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -155,12 +173,13 @@ public class Mandelbrot extends Canvas implements FileWriter {
 
 
 
-        return imageData;
+        return image;
     }
 
 
-    private void generateChunk(double xPos, double yPos, double zoom, int chunk, int chunkSize, int[][] imageData) {
-        for (int row = chunk; row < (chunk + chunkSize) && row < height; row++) {
+    private BufferedImage generateChunk(double xPos, double yPos, double zoom, int chunk, int chunkSize, int[][] imageData) {
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int row = 0;  row < height; row++) {
             for (int col = 0; col < width; col++) {
 
                 double c_re = ((col - width / 2) * zoom / width) + xPos;
@@ -175,14 +194,13 @@ public class Mandelbrot extends Canvas implements FileWriter {
                 }
 
                 if (iteration < MAX_ITERATIONS) {
-                    imageData[col][row] = getColor(iteration);
-                    image.setRGB(col, row, getColor(iteration));
+                    bufferedImage.setRGB(col, row, getColor(iteration));
                 } else {
-                    imageData[col][row] = black;
-                    image.setRGB(col, row, black);
+                    bufferedImage.setRGB(col, row, black);
                 }
             }
         }
+        return bufferedImage;
     }
 
     private int getColor(int index) {
