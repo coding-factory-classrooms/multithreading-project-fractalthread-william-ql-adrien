@@ -1,6 +1,5 @@
 package org.project.fractal;
 
-import org.project.utils.FileWriter;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -14,34 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.TimeUnit;
 
-/*
-Copyright (c) 2011, Tom Van Cutsem, Vrije Universiteit Brussel
-All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-    * Neither the name of the Vrije Universiteit Brussel nor the
-      names of its contributors may be used to endorse or promote products
-      derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL Vrije Universiteit Brussel BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
-
-<<<<<<< HEAD
-=======
 import javax.imageio.ImageIO;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -52,18 +24,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.*;
 
->>>>>>> ec9a71cf44ad01232bc86a5c5a9ede2f97db7304
 /**
  * @author ANDRIEU William
  */
-public class Mandelbrot extends Canvas implements FileWriter {
+public class Mandelbrot  {
 
-    // size of fractal in pixels (HEIGHT X HEIGHT)
-    private static final int HEIGHT = 512;
+
     // how long to test for orbit divergence
     private static final int MAX_ITERATIONS = 5000;
-    // maximum grid size to process sequentially
-    private static final int SEQ_CUTOFF = 64;
 
 
     private int height;
@@ -76,8 +44,6 @@ public class Mandelbrot extends Canvas implements FileWriter {
 
     /**
      * Construct a new Mandelbrot
-     * The constructor will calculate the fractal (either sequentially
-     * or in parallel), then store the result in an {@link java.awt.Image}
      *
      * @param width    the size of the fractal (width pixels).
      * @param height   the size of the fractal (height pixels).
@@ -125,11 +91,7 @@ public class Mandelbrot extends Canvas implements FileWriter {
     // zoom  chiffre + grand = dezoom;
     // xPos position dans le fractal
     // yPos position dans le fractal
-<<<<<<< HEAD
-    public int[][] calcMandelBrot(double xPos, double yPos, double zoom) {
-=======
     private BufferedImage calcMandelBrot(double xPos, double yPos, double zoom) {
->>>>>>> ec9a71cf44ad01232bc86a5c5a9ede2f97db7304
 
         int[][] imageData = new int[width][height];
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -160,18 +122,6 @@ public class Mandelbrot extends Canvas implements FileWriter {
 
         long elapsed = System.currentTimeMillis() - start;
         System.out.println("Time to generate : " + elapsed + " ms");
-
-        //FICHIER STATS.MD
-        try {
-            java.io.FileWriter fw = new java.io.FileWriter("stats.md", true);
-            fw.write("Time to generate : " + elapsed + " ms" +" + Cores :"+ cores +" --> membre de l'équipe: " + System.getProperty("user.name") + "\r\n");
-            fw.close();
-            System.out.println("Success : add statistics to stats.md");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
 
         return image;
     }
@@ -209,33 +159,4 @@ public class Mandelbrot extends Canvas implements FileWriter {
 
 
 
-    /**
-     * Divide the grid into four equally-sized subgrids until they
-     * are small enough to be drawn sequentially.
-     */
-    private class FractalTask extends RecursiveAction {
-        final int srcx;
-        final int srcy;
-        final int size;
-
-        public FractalTask(int sx, int sy, int siz) {
-            srcx = sx;
-            srcy = sy;
-            size = siz;
-        }
-
-        @Override
-        protected void compute() {
-            if (size < SEQ_CUTOFF) {
-                calcMandelBrot(0, 0, 4);
-            } else {
-                FractalTask ul = new FractalTask(srcx, srcy, size / 2);
-                FractalTask ur = new FractalTask(srcx + size / 2, srcy, size / 2);
-                FractalTask ll = new FractalTask(srcx, srcy + size / 2, size / 2);
-                FractalTask lr = new FractalTask(srcx + size / 2, srcy + size / 2, size / 2);
-                // forks and immediately joins the four subtasks
-                invokeAll(ul, ur, ll, lr);
-            }
-        }
-    }
 }
