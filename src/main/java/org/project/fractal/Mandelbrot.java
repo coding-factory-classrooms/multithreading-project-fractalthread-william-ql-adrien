@@ -54,7 +54,6 @@ public class Mandelbrot<T> {
             long elapsed = System.currentTimeMillis() - start;
             System.out.println("Time to generate : " + elapsed + " ms");
             return bufferedImage;
-
         } else {
             long start = System.currentTimeMillis();
             BufferedImage bufferedImage = generateFractal(x, y, zoom);

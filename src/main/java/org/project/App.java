@@ -11,16 +11,27 @@ import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 
 import static spark.Spark.halt;
 
-
 public class App {
-    public static void main(String[] args) {
+
+    private static final boolean DEBUG = true;
+
+    public static void main(String[] args) throws IOException {
         initialize();
+
+        System.out.println("START SERVEUR");
+        //vide le cache au lancement
+        if (new File("images/").exists() && !DEBUG){
+            deleteCacheDirectory("images/");
+        }
 
         int cores = Runtime.getRuntime().availableProcessors();
         Mandelbrot mandelbrot = new Mandelbrot(1920, 1080, false);
@@ -67,6 +78,26 @@ public class App {
 
             //return Template.render("image.html", new HashMap<>());
         });
+    }
+
+    public static void deleteCacheDirectory(String filePath) throws IOException {
+        Path path = Paths.get(filePath);
+        Files.walkFileTree(path, new SimpleFileVisitor<>() {
+                    // delete directories or folders
+                    @Override
+                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                        Files.delete(dir);
+                        return FileVisitResult.CONTINUE;
+                    }
+                    // delete files
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+                            throws IOException {
+                        Files.delete(file);
+                        return FileVisitResult.CONTINUE;
+                    }
+                }
+        );
     }
 
     static void initialize() {
