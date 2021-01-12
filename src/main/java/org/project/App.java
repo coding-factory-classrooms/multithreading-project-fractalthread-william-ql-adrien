@@ -2,16 +2,18 @@ package org.project;
 
 import org.project.core.Conf;
 import org.project.core.Template;
+import org.project.fractal.Julia;
 import org.project.fractal.Mandelbrot;
 import org.project.middlewares.LoggerMiddleware;
 import spark.Spark;
 
+import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
+import java.util.concurrent.Executors;
 
 import static spark.Spark.halt;
 
@@ -20,7 +22,9 @@ public class App {
     public static void main(String[] args) {
         initialize();
 
-        Mandelbrot mandelbrot = new Mandelbrot(1024, 1024, false);
+        int cores = Runtime.getRuntime().availableProcessors();
+        Mandelbrot mandelbrot = new Mandelbrot(1920, 1080, false);
+        Julia julia = new Julia();
 
 
         Spark.get("/", (req, res) -> {
@@ -29,17 +33,33 @@ public class App {
         Spark.get("/image", (req, res) -> {
             return Template.render("image.html", new HashMap<>());
         });
-        Spark.get("/images/:x/:y/:zoom", (req, res) -> {
+        Spark.get("/images/:type/:height/:width/:x/:y/:zoom", (req, res) -> {
+            String type = req.params(":type");
+            int height = Integer.parseInt(req.params(":height"));
+            int width = Integer.parseInt(req.params(":width"));
             double x = Double.parseDouble(req.params(":x"));
             double y = Double.parseDouble(req.params(":y"));
             double zoom = Double.parseDouble(req.params(":zoom"));
 
+            BufferedImage bufferedImage;
+            switch(type) {
+                case "mandelbrot":
+                    bufferedImage = mandelbrot.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, true);
+                    break;
+                case "julia":
+                    bufferedImage = julia.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, true);
+                    break;
+                default:
+                    bufferedImage = mandelbrot.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, false);
+                    break;
+            }
 
-            File file = mandelbrot.getImageFromPos(x, y, zoom);
             res.raw().setContentType("image/jpeg");
 
             try (OutputStream out = res.raw().getOutputStream()) {
-                ImageIO.write(ImageIO.read(file), "png", out);
+                ImageIO.write(bufferedImage, "png", out);
+            } catch (IIOException e) {
+                System.out.println("Error " + e);
             }
 
 

@@ -12,33 +12,46 @@
 <body>
 <div id="container">
     <div id="controller">
-        <div><i id="up" onclick="move('y', -1)" class="fas fa-arrow-up"
-                style="font-size:50px; margin-left:50px; padding-top:150px"></i></div>
-        <div><i id="left" onclick="move('x', -1)" class="fas fa-arrow-left"
-                style="font-size:50px; margin-left:10px"></i>
-            <i id="right" onclick="move('x', 1)" class="fas fa-arrow-right"
-               style="font-size:50px; margin-left:35px"></i></div>
-        <div><i id="down" onclick="move('y', 1)" class="fas fa-arrow-down" style="font-size:50px; margin-left:50px"></i>
+        <div>
+            <div class="control" onclick="changeImage('mandelbrot')">Mandelbrot</div>
+            <div class="control" onclick="changeImage('julia')">Julia</div>
         </div>
-        <div><i id="zoomup" onclick="move('zoom', -1)" class="fas fa-search-plus"
-                style="font-size:50px; margin-left:20px; padding-top:50px"></i>
-            <i id="zoomdown" onclick="move('zoom', 1)" class="fas fa-search-minus"
-               style="font-size:50px; margin-left:20px; padding-top:50px"></i></div>
+        <div>
+            <i id="up" onclick="move('y', -1)" class="fas fa-arrow-up"></i>
+        </div>
+        <div style="display: flex;flex-direction: row;justify-content: space-evenly;width: 100%;">
+            <i id="left" onclick="move('x', -1)" class="fas fa-arrow-left"></i>
+            <i id="right" onclick="move('x', 1)" class="fas fa-arrow-right"></i></div>
+        <div>
+            <i id="down" onclick="move('y', 1)" class="fas fa-arrow-down"></i>
+        </div>
+        <div style="display: flex;flex-direction: row;justify-content: space-evenly;width: 100%;">
+            <i id="zoomup" onclick="move('zoom', -1)" class="fas fa-search-plus"></i>
+            <i id="zoomdown" onclick="move('zoom', 1)" class="fas fa-search-minus"></i>
+        </div>
     </div>
-    <img id="image" src="/images/0.0/0.0/4.0">
+    <img id="image" src="/images/mandelbrot/1080/1920/0.0/0.0/4.0">
 </div>
 
 <script>
     const image = document.getElementById("image");
     const step = 5;
+    let typeBase = "mandelbrot";
+
     const position = {
-        x : 0.0,
-        y : 0.0,
-        zoom : 4.0
+        x: 0.0,
+        y: 0.0,
+        zoom: 4.0
     }
-    function changeImage(){
-        image.src = `/images/${position.x}/${position.y}/${position.zoom}`
+
+    function changeImage(type) {
+        let height = image.offsetHeight;
+        let width = image.offsetWidth;
+        typeBase = type ?? typeBase;
+
+        image.src = `/images/${typeBase}/${height}/${width}/${position.x}/${position.y}/${position.zoom}`
     }
+
 
     function move(pos, value) {
         value *= (Math.log(2 * position.zoom) / step);
@@ -46,37 +59,37 @@
         changeImage();
     }
 
-    document.onkeydown = function(e) {        // KEYCODE POUR SE DEPLACER DANS LE FRACTAL AVEC LE CLAVIER
-        switch(e.which) {
+    document.onkeydown = function (e) {        // KEYCODE POUR SE DEPLACER DANS LE FRACTAL AVEC LE CLAVIER
+        switch (e.which) {
             case 37:        // PERMET DE SE DEPLACER VERS LA GAUCHE AVEC LA FLECHE DE GAUCHE
-            move('x', -1);
-            break;
+                move('x', -1);
+                break;
 
             case 38:        // PERMET DE SE DEPLACER VERS LE HAUT AVEC LA FLECHE DU HAUT
-            move('y', -1);
-            break;
+                move('y', -1);
+                break;
 
             case 39:        // PERMET DE SE DEPLACER VERS LA DROITE AVEC LA FLECHE DE DROITE
-            move('x', 1);
-            break;
+                move('x', 1);
+                break;
 
             case 40:        // PERMET DE SE DEPLACER VERS LE BAS AVEC LA FLECHE DU BAS
-            move('y', 1);
-            break;
+                move('y', 1);
+                break;
 
             case 65:        // PERMET DE ZOOMER EN ARRIERE AVEC LA TOUCHE A
-            move('zoom', -1);
-            break;
+                move('zoom', -1);
+                break;
 
             case 90:        // PERMET DE ZOOMER EN AVANT AVEC LA TOUCHE Z
-            move('zoom', 1);
-            break;
+                move('zoom', 1);
+                break;
 
-           default: return;
+            default:
+                return;
         }
         e.preventDefault();
     };
-
 </script>
 </body>
 </html>
