@@ -30,14 +30,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 import javax.imageio.ImageIO;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -150,8 +147,9 @@ public class Mandelbrot extends Canvas {
     }
 
 
-    private void generateChunk(double xPos, double yPos, double zoom, int chunk, int chunkSize, int[][] imageData) {
-        for (int row = chunk; row < (chunk + chunkSize) && row < height; row++) {
+    private BufferedImage generateChunk(double xPos, double yPos, double zoom, int chunk, int chunkSize, int[][] imageData) {
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        for (int row = 0;  row < height; row++) {
             for (int col = 0; col < width; col++) {
 
                 double c_re = ((col - width / 2) * zoom / width) + xPos;
@@ -166,14 +164,13 @@ public class Mandelbrot extends Canvas {
                 }
 
                 if (iteration < MAX_ITERATIONS) {
-                    imageData[col][row] = getColor(iteration);
-                    image.setRGB(col, row, getColor(iteration));
+                    bufferedImage.setRGB(col, row, getColor(iteration));
                 } else {
-                    imageData[col][row] = black;
-                    image.setRGB(col, row, black);
+                    bufferedImage.setRGB(col, row, black);
                 }
             }
         }
+        return bufferedImage;
     }
 
     private int getColor(int index) {
