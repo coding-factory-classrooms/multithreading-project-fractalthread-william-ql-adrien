@@ -1,0 +1,19 @@
+
+Time to generate : 321 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 212 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 176 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 185 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 170 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 172 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 175 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 173 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 188 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 199 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 193 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 212 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 212 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 241 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 257 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 282 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 274 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+Time to generate : 261 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur

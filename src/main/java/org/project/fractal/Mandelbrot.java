@@ -1,5 +1,18 @@
 package org.project.fractal;
 
+import org.project.utils.FileWriter;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.TimeUnit;
 
 /*
 Copyright (c) 2011, Tom Van Cutsem, Vrije Universiteit Brussel
@@ -27,23 +40,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.*/
 
-import javax.imageio.ImageIO;
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.*;
-
 /**
  * @author ANDRIEU William
  */
-public class Mandelbrot extends Canvas {
+public class Mandelbrot extends Canvas implements FileWriter {
 
     // size of fractal in pixels (HEIGHT X HEIGHT)
     private static final int HEIGHT = 512;
@@ -112,7 +112,7 @@ public class Mandelbrot extends Canvas {
     // zoom  chiffre + grand = dezoom;
     // xPos position dans le fractal
     // yPos position dans le fractal
-    private int[][] calcMandelBrot(double xPos, double yPos, double zoom) {
+    public int[][] calcMandelBrot(double xPos, double yPos, double zoom) {
 
         int[][] imageData = new int[width][height];
         // BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
@@ -142,6 +142,16 @@ public class Mandelbrot extends Canvas {
 
         long elapsed = System.currentTimeMillis() - start;
         System.out.println("Time to generate : " + elapsed + " ms");
+
+        //FICHIER STATS.MD
+        try {
+            java.io.FileWriter fw = new java.io.FileWriter("stats.md", true);
+            fw.write("Time to generate : " + elapsed + " ms" +" + Cores :"+ cores +" --> membre de l'équipe: " + System.getProperty("user.name") + "\r\n");
+            fw.close();
+            System.out.println("Success : add statistics to stats.md");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -180,6 +190,7 @@ public class Mandelbrot extends Canvas {
     }
 
 
+
     /**
      * Divide the grid into four equally-sized subgrids until they
      * are small enough to be drawn sequentially.
@@ -209,6 +220,4 @@ public class Mandelbrot extends Canvas {
             }
         }
     }
-
-
 }

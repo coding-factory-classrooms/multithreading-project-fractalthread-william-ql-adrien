@@ -6,18 +6,24 @@
     <link href="css/imageControl.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"/>
 
 </head>
 <body>
 <div id="container">
     <div id="controller">
-        <div><i id="up" onclick="move('y', -1)" class="fas fa-arrow-up" style="font-size:50px; margin-left:50px; padding-top:150px"></i></div>
-        <div><i id="left" onclick="move('x', -1)" class="fas fa-arrow-left" style="font-size:50px; margin-left:10px"></i>
-             <i id="right" onclick="move('x', 1)" class="fas fa-arrow-right" style="font-size:50px; margin-left:35px"></i></div>
-        <div><i id="down" onclick="move('y', 1)"  class="fas fa-arrow-down" style="font-size:50px; margin-left:50px"></i></div>
-        <div><i id="zoomup" onclick="move('zoom', -1)" class="fas fa-search-plus" style="font-size:50px; margin-left:20px; padding-top:50px"></i>
-             <i id="zoomdown" onclick="move('zoom', 1)" class="fas fa-search-minus" style="font-size:50px; margin-left:20px; padding-top:50px"></i></div>
+        <div><i id="up" onclick="move('y', -1)" class="fas fa-arrow-up"
+                style="font-size:50px; margin-left:50px; padding-top:150px"></i></div>
+        <div><i id="left" onclick="move('x', -1)" class="fas fa-arrow-left"
+                style="font-size:50px; margin-left:10px"></i>
+            <i id="right" onclick="move('x', 1)" class="fas fa-arrow-right"
+               style="font-size:50px; margin-left:35px"></i></div>
+        <div><i id="down" onclick="move('y', 1)" class="fas fa-arrow-down" style="font-size:50px; margin-left:50px"></i>
+        </div>
+        <div><i id="zoomup" onclick="move('zoom', -1)" class="fas fa-search-plus"
+                style="font-size:50px; margin-left:20px; padding-top:50px"></i>
+            <i id="zoomdown" onclick="move('zoom', 1)" class="fas fa-search-minus"
+               style="font-size:50px; margin-left:20px; padding-top:50px"></i></div>
     </div>
     <img id="image" src="/images/0.0/0.0/4.0">
 </div>
@@ -70,6 +76,7 @@
         }
         e.preventDefault();
     };
+
 </script>
 </body>
 </html>

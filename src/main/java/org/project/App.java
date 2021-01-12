@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import static spark.Spark.halt;
 
+
 public class App {
     public static void main(String[] args) {
         initialize();
@@ -34,7 +35,7 @@ public class App {
             double zoom = Double.parseDouble(req.params(":zoom"));
 
 
-            File file = mandelbrot.getImageFromPos(x, y , zoom);
+            File file = mandelbrot.getImageFromPos(x, y, zoom);
             res.raw().setContentType("image/jpeg");
 
             try (OutputStream out = res.raw().getOutputStream()) {
