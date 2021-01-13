@@ -9,11 +9,11 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author ANDRIEU William
  */
-public class Mandelbrot<T> {
+public class Mandelbrot {
 
 
     // how long to test for orbit divergence
-    private static final int MAX_ITERATIONS = 5000;
+    private int MAX_ITERATIONS;
 
 
     private int height;
@@ -25,14 +25,10 @@ public class Mandelbrot<T> {
     /**
      * Construct a new Mandelbrot
      *
-     * @param width    the size of the fractal (width pixels).
-     * @param height   the size of the fractal (height pixels).
-     * @param parallel if true, render in parallel
      */
-    public Mandelbrot(int width, int height, boolean parallel) {
+    public Mandelbrot(int maxIteration) {
 
-        this.width = width;
-        this.height = height;
+        this.MAX_ITERATIONS = maxIteration;
 
 
         this.colors = new int[MAX_ITERATIONS];

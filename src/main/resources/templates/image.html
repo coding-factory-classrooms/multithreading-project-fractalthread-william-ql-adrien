@@ -11,26 +11,25 @@
 </head>
 <body>
 <div id="container">
-    <div id="controller">
-        <div>
-            <div class="control" onclick="changeImage('mandelbrot')">Mandelbrot</div>
-            <div class="control" onclick="changeImage('julia')">Julia</div>
-        </div>
-        <div>
+
+    <div class="type-selectors">
+        <div class="selector" onclick="changeImage('mandelbrot')">Mandelbrot</div>
+        <div class="selector" onclick="changeImage('julia')">Julia</div>
+    </div>
+    <div class="zoom-controller">
+            <i id="zoomup"  onclick="move('zoom', -1)" class="fas fa-search-plus"></i>
+            <i id="zoomdown" onclick="move('zoom', 1)" class="fas fa-search-minus"></i>
+    </div>
+    <div id="direction-controller">
+
             <i id="up" onclick="move('y', -1)" class="fas fa-arrow-up"></i>
-        </div>
-        <div style="display: flex;flex-direction: row;justify-content: space-evenly;width: 100%;">
+
+        <div class="arrow-container">
             <i id="left" onclick="move('x', -1)" class="fas fa-arrow-left"></i>
             <i id="right" onclick="move('x', 1)" class="fas fa-arrow-right"></i></div>
-        <div>
+
             <i id="down" onclick="move('y', 1)" class="fas fa-arrow-down"></i>
-        </div>
-        <div style="display: flex;flex-direction: row;justify-content: space-evenly;width: 100%;">
-            <i id="zoomup" onclick="move('zoom', -1)" class="fas fa-search-plus"></i>
-            <i id="zoomdown" onclick="move('zoom', 1)" class="fas fa-search-minus"></i>
-        </div>
-        <h3 style="margin-left:40px; margin-top:-10px">A</h3>
-        <h3 style="margin-left:110px; margin-top:-40px">Z</h3>
+
     </div>
     <img id="image" src="/images/mandelbrot/1080/1920/0.0/0.0/4.0">
 </div>

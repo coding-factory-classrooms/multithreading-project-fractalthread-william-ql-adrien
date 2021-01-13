@@ -29,12 +29,12 @@ public class App {
 
         System.out.println("START SERVEUR");
         //vide le cache au lancement
-        if (new File("images/").exists() && !DEBUG){
+       /* if (new File("images/").exists() && !DEBUG){
             deleteCacheDirectory("images/");
-        }
+        }*/
 
         int cores = Runtime.getRuntime().availableProcessors();
-        Mandelbrot mandelbrot = new Mandelbrot(1920, 1080, false);
+        Mandelbrot mandelbrot = new Mandelbrot(1000);
         Julia julia = new Julia();
 
 
@@ -80,7 +80,7 @@ public class App {
         });
     }
 
-    public static void deleteCacheDirectory(String filePath) throws IOException {
+/*    public static void deleteCacheDirectory(String filePath) throws IOException {
         Path path = Paths.get(filePath);
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
                     // delete directories or folders
@@ -98,7 +98,7 @@ public class App {
                     }
                 }
         );
-    }
+    }*/
 
     static void initialize() {
         Template.initialize();
