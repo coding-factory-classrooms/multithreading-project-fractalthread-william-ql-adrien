@@ -36,7 +36,6 @@
 
 <script>
     const image = document.getElementById("image");
-    const step = 5;
     let typeBase = "mandelbrot";
 
     const position = {
@@ -55,8 +54,20 @@
 
 
     function move(pos, value) {
-        value *= (Math.log(2 * position.zoom) / step);
-        position[pos] += value;
+        if(pos === "z"){
+            if(value < 0){
+                position[pos] *= 0.8;
+            }else {
+                position[pos] /= 0.8;
+            }
+        }else{
+            if(value < 0){
+                position[pos] -= (position.zoom/4);
+            }else {
+                position[pos] += (position.zoom/4);
+            }
+        }
+
         changeImage();
     }
 
