@@ -1,19 +1,33 @@
+#Stats de l'équipe
 
-Time to generate : 321 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 212 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 176 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 185 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 170 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 172 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 175 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 173 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 188 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 199 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 193 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 212 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 212 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 241 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 257 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 282 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 274 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
-Time to generate : 261 ms + Cores :12 --> membre de l'équipe: quentin-loicprieur
+####Information sur l'équipement
+**Adrien**:
+- Résolution 969*1920
+- Nombre de threads 12
+- Processeur AMD Ryzen5 3600X 3.80GHz
+
+**William**:
+- Résolution 1010x2048
+- Nombre de threads 8
+- Processeur Intel i7 7700k 4.20GHz
+
+**Quentin-Loîc**
+- Résolution 
+- Nombre de threads 12
+- Processeur i9 2.9GHz
+
+Pour un nombre d'itération de 5000
+###Sans multithreading
+| Adrien | William | Quentin |
+| ------ | ------ |------ |
+| 3989.7ms  | 4090.5ms | 4370.4ms | 
+
+###Avec multithreading
+| Adrien | William | Quentin |
+| ------ | ------ |------ |
+| 152.375ms  | 235.81ms | 80.4ms | 
+
+###Pourcentage de progression
+| Adrien | William | Quentin |
+| ------ | ------ |------ |
+| 2518%  | 1635% | 5336% | 
