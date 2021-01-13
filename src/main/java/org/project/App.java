@@ -34,7 +34,7 @@ public class App {
         }*/
 
         int cores = Runtime.getRuntime().availableProcessors();
-        Mandelbrot mandelbrot = new Mandelbrot(1000);
+        Mandelbrot mandelbrot = new Mandelbrot(5000);
         Julia julia = new Julia();
 
 
