@@ -18,12 +18,15 @@ public class CacheLRU {
         return cache.containsKey(key);
     }
 
+    private final Object lock = new Object();
     public void addNewImages(String key, BufferedImage bufferedImage) {
-        if (cache.size() < maxEntry) {
-            cache.put(key, bufferedImage);
-        } else {
-            String firstKey = cache.entrySet().iterator().next().getKey();
-            cache.remove(firstKey);
+        synchronized (lock){
+            if (cache.size() < maxEntry) {
+                cache.put(key, bufferedImage);
+            } else {
+                String firstKey = cache.entrySet().iterator().next().getKey();
+                cache.remove(firstKey);
+            }
         }
     }
 
