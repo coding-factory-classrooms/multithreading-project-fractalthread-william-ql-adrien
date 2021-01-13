@@ -1,6 +1,7 @@
 package org.project.fractal;
 
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.concurrent.ExecutorService;
@@ -48,6 +49,9 @@ public class Mandelbrot {
             BufferedImage bufferedImage = generateFractal(x, y, zoom, executorService);
             long elapsed = System.currentTimeMillis() - start;
             System.out.println("Time to generate : " + elapsed + " ms");
+            if (x == -0.7006458334216172 && y == -0.20206193410542064 && zoom == 0.5707581840228738){
+                bufferedImage = addNameOnFractal(bufferedImage);
+            }
             return bufferedImage;
         } else {
             long start = System.currentTimeMillis();
@@ -56,8 +60,33 @@ public class Mandelbrot {
             System.out.println("Time to generate : " + elapsed + " ms");
             return bufferedImage;
         }
+    }
 
+    private BufferedImage addNameOnFractal(BufferedImage bufferedImage) {
+        Image teamNameImage = new ImageIcon("./Name.PNG").getImage();
+        BufferedImage bufferedImageTeamName = toBufferedImage(teamNameImage);
+        for (int w = 0; w < bufferedImageTeamName.getWidth(); w++){
+            for (int h = 0; h < bufferedImageTeamName.getHeight(); h++){
+                bufferedImage.setRGB(w + 50,h + 50, bufferedImageTeamName.getRGB(w,h));
+            }
+        }
+        return bufferedImage;
+    }
 
+    public static BufferedImage toBufferedImage(Image img)
+    {
+        if (img instanceof BufferedImage)
+        {
+            return (BufferedImage) img;
+        }
+        // Create a buffered image with transparency
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        // Draw the image on to the buffered image
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+        // Return the buffered image
+        return bimage;
     }
 
     // col => Column in image
