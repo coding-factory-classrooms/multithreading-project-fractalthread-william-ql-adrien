@@ -76,3 +76,5 @@ fabric.properties
 images/
 
 .DS_Store
+
+.idea/codeStyles/
