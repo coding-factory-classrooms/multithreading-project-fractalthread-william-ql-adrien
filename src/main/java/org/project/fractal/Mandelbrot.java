@@ -30,7 +30,6 @@ public class Mandelbrot {
 
         this.MAX_ITERATIONS = maxIteration;
 
-
         this.colors = new int[MAX_ITERATIONS];
         for (int i = 0; i < MAX_ITERATIONS; i++) {
             colors[i] = Color.HSBtoRGB(i / 256f, 1, i / (i + 8f));
