@@ -10,11 +10,8 @@ import spark.Spark;
 import javax.imageio.IIOException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
 
@@ -27,16 +24,11 @@ public class App {
     public static void main(String[] args) throws IOException {
         initialize();
 
-        System.out.println("START SERVEUR");
-        //vide le cache au lancement
-       /* if (new File("images/").exists() && !DEBUG){
-            deleteCacheDirectory("images/");
-        }*/
-
         int cores = Runtime.getRuntime().availableProcessors();
         Mandelbrot mandelbrot = new Mandelbrot(5000);
         Julia julia = new Julia();
 
+        CacheLRU cacheLRU = new CacheLRU(50);
 
         Spark.get("/", (req, res) -> {
             return Template.render("home.html", new HashMap<>());
@@ -52,17 +44,23 @@ public class App {
             double y = Double.parseDouble(req.params(":y"));
             double zoom = Double.parseDouble(req.params(":zoom"));
 
+            String key = type + "_" + height + "_" + width + "_" + x + "_" + y + "_" + zoom;
             BufferedImage bufferedImage;
-            switch(type) {
-                case "mandelbrot":
-                    bufferedImage = mandelbrot.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, true);
-                    break;
-                case "julia":
-                    bufferedImage = julia.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, true);
-                    break;
-                default:
-                    bufferedImage = mandelbrot.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, false);
-                    break;
+            if (!cacheLRU.contains(key)) {
+                switch (type) {
+                    case "mandelbrot":
+                        bufferedImage = mandelbrot.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, true);
+                        break;
+                    case "julia":
+                        bufferedImage = julia.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, true);
+                        break;
+                    default:
+                        bufferedImage = mandelbrot.generateFractal(height, width, x, y, zoom, Executors.newFixedThreadPool(cores)/*new ThreadPool(cores)*/, false);
+                        break;
+                }
+                cacheLRU.addNewImages(key, bufferedImage);
+            } else {
+                bufferedImage = cacheLRU.getBufferedImage(key);
             }
 
             res.raw().setContentType("image/jpeg");
@@ -79,26 +77,6 @@ public class App {
             //return Template.render("image.html", new HashMap<>());
         });
     }
-
-/*    public static void deleteCacheDirectory(String filePath) throws IOException {
-        Path path = Paths.get(filePath);
-        Files.walkFileTree(path, new SimpleFileVisitor<>() {
-                    // delete directories or folders
-                    @Override
-                    public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                        Files.delete(dir);
-                        return FileVisitResult.CONTINUE;
-                    }
-                    // delete files
-                    @Override
-                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-                            throws IOException {
-                        Files.delete(file);
-                        return FileVisitResult.CONTINUE;
-                    }
-                }
-        );
-    }*/
 
     static void initialize() {
         Template.initialize();

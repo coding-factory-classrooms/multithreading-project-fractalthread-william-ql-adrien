@@ -66,7 +66,6 @@ class MandelTask implements Runnable {
                 }
             }
 
-
             // image.getRaster().setPixels(0, 0, 1024, 1024, new int[]{0,0,0});
         }
     }

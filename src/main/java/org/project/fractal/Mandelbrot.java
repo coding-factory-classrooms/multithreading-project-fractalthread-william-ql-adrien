@@ -24,7 +24,6 @@ public class Mandelbrot {
 
     /**
      * Construct a new Mandelbrot
-     *
      */
     public Mandelbrot(int maxIteration) {
 
@@ -44,7 +43,7 @@ public class Mandelbrot {
         this.height = height;
         this.width = width;
 
-        if(parallel) {
+        if (parallel) {
             long start = System.currentTimeMillis();
             BufferedImage bufferedImage = generateFractal(x, y, zoom, executorService);
             long elapsed = System.currentTimeMillis() - start;
@@ -60,9 +59,6 @@ public class Mandelbrot {
 
 
     }
-
-
-
 
     // col => Column in image
     // row => Rows in image
